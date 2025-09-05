@@ -15,10 +15,11 @@ zen-browser = {
 
 Then add to your `environment.systemPackages` for NixOS:
 
-
+```nix
 environment.systemPackages = [
-inputs.zen-browser.packages.${system}.default
+    inputs.zen-browser.packages.${system}.default
 ];
+```
 
 
 Run:
@@ -30,7 +31,9 @@ sudo nixos-rebuild switch
 Or for home-manager:
 
 ```nix
-home.packages = [ inputs.zen-browser.packages.${system}.default ];
+home.packages = [ 
+    inputs.zen-browser.packages.${system}.default
+];
 ```
 
 ```bash
