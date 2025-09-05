@@ -6,13 +6,12 @@ Nix flake to build and install Zen Browser.
 
 Add to your `flake.nix` inputs:
 
-
-inputs = {
-zen-browser.url = "github:your-username/zen-browser-flake";
-# optional: follow nixpkgs if needed
-zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+```nix
+zen-browser = {
+url = "github:14Artemiy88/zen-browser-flake";
+inputs.nixpkgs.follows = "nixpkgs";
 };
-
+```
 
 Then add to your `environment.systemPackages` for NixOS:
 
@@ -24,15 +23,18 @@ inputs.zen-browser.packages.${system}.default
 
 Run:
 
-
+```bash
 sudo nixos-rebuild switch
-
+```
 
 Or for home-manager:
 
-
 home.packages = [ inputs.zen-browser.packages.${system}.default ];
+
+```bash
 home-manager switch
+```
+
 
 
 ## Usage
