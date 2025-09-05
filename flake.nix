@@ -11,14 +11,8 @@
       system = "x86_64-linux";
       version = "1.15.3b";
       downloadUrl = {
-        "specific" = {
-          url = "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-x86_64.tar.xz";
-          sha256 = "sha256:1bvkqb38vqj61b075npc4k1qgywd5rxacqymrykkxy680r3cl9iq";
-        };
-        "generic" = {
-          url = "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-x86_64.tar.xz";
-          sha256 = "sha256:1bvkqb38vqj61b075npc4k1qgywd5rxacqymrykkxy680r3cl9iq";
-        };
+        url = "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-x86_64.tar.xz";
+        sha256 = "sha256:1bvkqb38vqj61b075npc4k1qgywd5rxacqymrykkxy680r3cl9iq";
       };
 
       pkgs = import nixpkgs {
@@ -77,9 +71,9 @@
         ]);
 
       mkZen =
-        { variant }:
+        { }:
         let
-          downloadData = downloadUrl."${variant}";
+          downloadData = downloadUrl;
         in
         pkgs.stdenv.mkDerivation {
           inherit version;
@@ -129,9 +123,8 @@
     in
     {
       packages."${system}" = {
-        generic = mkZen { variant = "generic"; };
-        specific = mkZen { variant = "specific"; };
-        default = self.packages."${system}".specific;
+        generic = mkZen { };
+        default = self.packages."${system}".generic;
       };
     };
 }
