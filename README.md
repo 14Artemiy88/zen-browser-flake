@@ -48,7 +48,7 @@ Run `zen` in your terminal or find Zen Browser in your app launcher.
 
 ## License
 
-MIT License © Your Name
+MIT License
 
 ## Contributing
 

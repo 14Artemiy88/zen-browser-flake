@@ -1,0 +1,31 @@
+name: Update Zen Browser Tag
+
+on:
+  schedule:
+    - cron: "0 0 * * SUN"  # каждое воскресенье в полночь
+  workflow_dispatch:       # вручную можно запустить
+
+jobs:
+  update-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch latest Zen Browser tags
+        run: |
+          LATEST_TAG=$(git ls-remote --tags https://github.com/zen-browser/desktop.git | \
+          awk -F/ '{print $3}' | grep -E '^v?[0-9]+(\.[0-9]+)*' | sort -V | tail -1)
+          echo "Latest tag: $LATEST_TAG"
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+
+      - name: Update flake.nix with latest tag
+        run: |
+          sed -i "s|url = \".*\"|url = \"https://github.com/zen-browser/desktop/archive/refs/tags/${{ env.LATEST_TAG }}.tar.gz\"|" flake.nix
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add flake.nix
+          git diff --cached --quiet || git commit -m "Update Zen Browser to ${{ env.LATEST_TAG }}"
+          git push
